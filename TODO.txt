@@ -3,3 +3,10 @@ TODO :
  - appeller une api externe : https://howtodoinjava.com/spring/spring-restful/spring-restful-client-resttemplate-example/
  - trouver un moyen de persister les données
  - essayer de caller une authent là dessus
+
+
+
+ Pour les données des joueurs :
+
+ http://api.football-data.org/v1/competitions/
+ http://api.football-data.org/v1/teams/527/players              pololo c'est sainté gros

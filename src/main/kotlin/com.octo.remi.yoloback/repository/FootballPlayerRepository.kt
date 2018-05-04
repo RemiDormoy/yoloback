@@ -1,5 +1,6 @@
 package com.octo.remi.yoloback.repository
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.octo.remi.yoloback.entities.FootballPlayer
 import org.springframework.stereotype.Component
 import javax.annotation.PostConstruct
