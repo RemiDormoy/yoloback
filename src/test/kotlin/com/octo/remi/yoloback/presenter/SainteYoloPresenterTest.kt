@@ -1,22 +1,25 @@
 package com.octo.remi.yoloback.presenter
 
+import com.octo.remi.yoloback.entities.FootballPlayer
 import com.octo.remi.yoloback.entities.FootballPlayerViewModel
 import com.octo.remi.yoloback.interactor.SainteYoloInteractor
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.*
 import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito
+import org.mockito.BDDMockito.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import java.time.LocalDate
 
-@RunWith(SpringJUnit4ClassRunner::class)
 class SainteYoloPresenterTest {
 
     @Mock private lateinit var interactor: SainteYoloInteractor
@@ -28,14 +31,42 @@ class SainteYoloPresenterTest {
     }
 
     @Test
-    fun onSainteListRequested() {
+    fun onSainteListRequested_empty() {
         // Given
-        BDDMockito.given(interactor.getSaintePlayers()).willReturn(listOf())
+        given(interactor.getSaintePlayers()).willReturn(listOf())
 
         // When
         val result = presenter.onSainteListRequested()
 
         // Then
-        Assertions.assertThat(result).isEqualTo(listOf<FootballPlayerViewModel>())
+        assertThat(result).isEqualTo(listOf<FootballPlayerViewModel>())
+    }
+
+    @Test
+    fun onSainteListRequested() {
+        // Given
+        given(interactor.getSaintePlayers()).willReturn(listOf(
+                FootballPlayer(
+                        firstName = "firstName",
+                        lastName ="lastName",
+                        nation = "nation",
+                        club = "club",
+                        birthDate = LocalDate.now().minusYears(3)
+                )
+        ))
+
+        // When
+        val result = presenter.onSainteListRequested()
+
+        // Then
+        assertThat(result).isEqualTo(listOf(
+                FootballPlayerViewModel(
+                        firstName = "firstName",
+                        lastName = "lastName",
+                        nation = "nation",
+                        club = "club",
+                        age = 3
+                )
+        ))
     }
 }
