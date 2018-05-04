@@ -1,19 +1,18 @@
 package com.octo.remi.yoloback.repository
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.octo.remi.yoloback.entities.FootballPlayer
+import com.octo.remi.yoloback.entities.FootballPlayerViewModel
 import org.springframework.stereotype.Component
 import javax.annotation.PostConstruct
 
 @Component
 class FootballPlayerRepository {
 
-    private val players = mutableListOf<FootballPlayer>()
+    private val players = mutableListOf<FootballPlayerViewModel>()
 
     fun getPlayers() = players
 
     @Throws(PlayerAlreadyExistException::class)
-    fun addPlayer(player: FootballPlayer) {
+    fun addPlayer(player: FootballPlayerViewModel) {
         if (players.contains(player)) {
             throw PlayerAlreadyExistException()
         } else {
@@ -24,9 +23,9 @@ class FootballPlayerRepository {
     @PostConstruct
     fun init() {
         players.addAll(listOf(
-                FootballPlayer("Cristiano", "Ronaldo", 33, "Madrid", "Portugal"),
-                FootballPlayer("Neymar Jr", "da Silva Santos",26 , "Paris", "Brésil"),
-                FootballPlayer("Antoine", "Griezmann", 27, "Madrid", "France")
+                FootballPlayerViewModel("Cristiano", "Ronaldo", 33, "Madrid", "Portugal"),
+                FootballPlayerViewModel("Neymar Jr", "da Silva Santos",26 , "Paris", "Brésil"),
+                FootballPlayerViewModel("Antoine", "Griezmann", 27, "Madrid", "France")
 
         ))
     }
