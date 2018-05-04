@@ -8,7 +8,7 @@ import java.time.LocalDate
 import java.time.Period
 
 @Component
-class SainteYoloPresenter {
+class SainteYoloPresenter @Autowired constructor(private val interactor: SainteYoloInteractor) {
     fun onSainteListRequested(): List<FootballPlayerViewModel> {
         val players = interactor.getSaintePlayers()
         return players.map {
@@ -26,7 +26,4 @@ class SainteYoloPresenter {
         val now = LocalDate.now()
         return Period.between(date, now).years
     }
-
-    @Autowired
-    private lateinit var interactor: SainteYoloInteractor
 }

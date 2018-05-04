@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class SainteYoloInteractor {
+open class SainteYoloInteractor @Autowired constructor(private val repository: SainteRepository) {
 
-    @Autowired
-    private lateinit var repository: SainteRepository
-
-    fun getSaintePlayers(): List<FootballPlayer> = repository.getGreenPlayers()
+    open fun getSaintePlayers(): List<FootballPlayer> = repository.getGreenPlayers()
 
 }
