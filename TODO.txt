@@ -1,0 +1,5 @@
+TODO :
+
+ - appeller une api externe : https://howtodoinjava.com/spring/spring-restful/spring-restful-client-resttemplate-example/
+ - trouver un moyen de persister les données
+ - essayer de caller une authent là dessus
