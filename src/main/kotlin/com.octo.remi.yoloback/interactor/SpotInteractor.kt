@@ -38,15 +38,16 @@ class SpotInteractor(private val db: DBSpotRepository,
     private fun getListFromNetwork(): List<ChargeSpot> {
         val list = mutableListOf<ChargeSpot>()
         list.addAll(firstRepository.getSpots())
-        val elements = secondRepository.getSpots()
-        //list.addAll(elements)
-        list.addAllIf(secondRepository.getSpots(), { spot ->
-            list.find {
+        list.addIfNotPresent(secondRepository.getSpots())
+        return list
+    }
+
+    private fun MutableList<ChargeSpot>.addIfNotPresent(listToAdd: List<ChargeSpot>) {
+        this.addAllIf(listToAdd, { spot ->
+            this.find {
                 spot.longitude.setScale(10, RoundingMode.HALF_UP) == it.longitude.setScale(10, RoundingMode.HALF_UP) && spot.latitude.setScale(10, RoundingMode.HALF_UP) == it.latitude.setScale(10, RoundingMode.HALF_UP)
-                //spot == it
             } == null
         })
-        return list
     }
 }
 
