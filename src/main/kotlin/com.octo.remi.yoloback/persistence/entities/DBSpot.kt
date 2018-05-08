@@ -5,14 +5,13 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
-class DBFootballPlayer {
+class DBSpot {
 
     @Id
     @GeneratedValue
     var id: Long = 0
-    lateinit var firstName: String
-    lateinit var lastName: String
-    lateinit var birthDate: String
-    lateinit var club: String
-    lateinit var nation: String
+    lateinit var label: String
+    lateinit var adress: String
+    lateinit var longitude: String
+    lateinit var latitude: String
 }
