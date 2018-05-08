@@ -4,17 +4,22 @@ import com.octo.remi.yoloback.entities.ChargeSpot
 import com.octo.remi.yoloback.persistence.entities.DBSpot
 import com.octo.remi.yoloback.persistence.repository.DBSpotRepository
 import com.octo.remi.yoloback.repository.SpotRepository1
+import com.octo.remi.yoloback.repository.SpotRepository2
+import com.octo.remi.yoloback.utils.addAllIf
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 @Component
 class SpotInteractor(private val db: DBSpotRepository,
-                     private val firstRepository: SpotRepository1) {
+                     private val firstRepository: SpotRepository1,
+                     private val secondRepository: SpotRepository2) {
+
     fun getSpots(): List<ChargeSpot> {
         val dbPlayers = db.findAll()
         return if (dbPlayers.isEmpty()) {
             println("yo ! je suis en train de faire un appel réseau")
-            val remoteList = firstRepository.getSpots()
+            val remoteList = getListFromNetwork()
             db.saveAll(remoteList.map { it.transformToDb() })
             remoteList
         } else {
@@ -28,6 +33,20 @@ class SpotInteractor(private val db: DBSpotRepository,
                 )
             }
         }
+    }
+
+    private fun getListFromNetwork(): List<ChargeSpot> {
+        val list = mutableListOf<ChargeSpot>()
+        list.addAll(firstRepository.getSpots())
+        val elements = secondRepository.getSpots()
+        //list.addAll(elements)
+        list.addAllIf(secondRepository.getSpots(), { spot ->
+            list.find {
+                spot.longitude.setScale(10, RoundingMode.HALF_UP) == it.longitude.setScale(10, RoundingMode.HALF_UP) && spot.latitude.setScale(10, RoundingMode.HALF_UP) == it.latitude.setScale(10, RoundingMode.HALF_UP)
+                //spot == it
+            } == null
+        })
+        return list
     }
 }
 
