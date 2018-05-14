@@ -15,4 +15,4 @@ class AuthenticationInterceptor : HandlerInterceptorAdapter(){
 }
 
 @ResponseStatus(value = HttpStatus.UNAUTHORIZED, reason = "On t'aime pas, t'es pas loggé... ¯\\_(ツ)_/¯")
-class NotLoggedException() : RuntimeException()
+class NotLoggedException : RuntimeException()
